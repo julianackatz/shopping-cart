@@ -24,6 +24,7 @@ const useDataApi = (initialUrl, initialData) => {
     data: initialData,
   });
   console.log(`useDataApi called`);
+
   useEffect(() => {
     console.log("useEffect Called");
     let didCancel = false;
@@ -33,7 +34,8 @@ const useDataApi = (initialUrl, initialData) => {
         const result = await axios(url);
         console.log("FETCH FROM URl");
         if (!didCancel) {
-          dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+          const attributes = result.data.data.map(item => item.attributes);
+          dispatch({ type: "FETCH_SUCCESS", payload: attributes });
         }
       } catch (error) {
         if (!didCancel) {
